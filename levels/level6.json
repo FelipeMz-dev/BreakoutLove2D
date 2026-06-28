@@ -1,0 +1,18 @@
+{
+  "id": 6,
+  "name": "Nivel 6 - Final",
+  "rows": 8,
+  "columns": 12,
+  "brickWidth": 54,
+  "brickHeight": 16,
+  "padding": 4,
+  "offsetX": 20,
+  "offsetY": 60,
+  "colors": [
+    [0.9, 0.2, 0.5],
+    [0.2, 0.9, 0.6],
+    [0.5, 0.25, 0.95],
+    [0.95, 0.55, 0.15]
+  ],
+  "rowResistances": [1, 2, 2, 3, 3, 2, 2, 1]
+}

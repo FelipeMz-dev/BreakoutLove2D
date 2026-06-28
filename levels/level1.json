@@ -1,0 +1,16 @@
+﻿{
+  "id": 1,
+  "name": "Nivel 1 - Básico",
+  "rows": 2,
+  "columns": 8,
+  "brickWidth": 80,
+  "brickHeight": 30,
+  "padding": 6,
+  "offsetX": 60,
+  "offsetY": 60,
+  "colors": [
+    [0.8, 0.3, 0.3],
+    [0.9, 0.6, 0.2],
+    [0.3, 0.6, 0.9]
+  ]
+}

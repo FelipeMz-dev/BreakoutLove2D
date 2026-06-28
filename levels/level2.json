@@ -1,0 +1,17 @@
+﻿{
+  "id": 2,
+  "name": "Nivel 2 - Intermedio",
+  "rows": 4,
+  "columns": 8,
+  "brickWidth": 80,
+  "brickHeight": 24,
+  "padding": 5,
+  "offsetX": 60,
+  "offsetY": 60,
+  "colors": [
+    [0.4, 0.7, 0.2],
+    [0.6, 0.4, 0.9],
+    [0.9, 0.4, 0.4],
+    [0.9, 0.8, 0.2]
+  ]
+}

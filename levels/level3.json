@@ -1,0 +1,18 @@
+{
+  "id": 3,
+  "name": "Nivel 3 - Avanzado",
+  "rows": 6,
+  "columns": 10,
+  "brickWidth": 68,
+  "brickHeight": 18,
+  "padding": 5,
+  "offsetX": 34,
+  "offsetY": 60,
+  "colors": [
+    [0.9, 0.3, 0.6],
+    [0.3, 0.9, 0.6],
+    [0.6, 0.3, 0.9],
+    [0.95, 0.75, 0.2]
+  ],
+  "rowResistances": [1, 2, 3, 2, 1, 2]
+}

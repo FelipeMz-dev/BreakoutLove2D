@@ -1,0 +1,18 @@
+{
+  "id": 4,
+  "name": "Nivel 4 - Círculo",
+  "rows": 6,
+  "columns": 10,
+  "brickWidth": 64,
+  "brickHeight": 18,
+  "padding": 5,
+  "offsetX": 40,
+  "offsetY": 60,
+  "colors": [
+    [0.2, 0.8, 0.6],
+    [0.25, 0.6, 0.95],
+    [0.95, 0.45, 0.2],
+    [0.7, 0.3, 0.95]
+  ],
+  "rowResistances": [1, 1, 2, 3, 2, 1]
+}

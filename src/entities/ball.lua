@@ -44,26 +44,13 @@ function Ball:release()
     self.stuck = false
 end
 
-function Ball:update(dt, screenWidth, screenHeight)
+function Ball:update(dt)
     if self.stuck then
         return
     end
 
     self.x = self.x + self.dx * dt
     self.y = self.y + self.dy * dt
-
-    if self.x - self.radius <= 0 then
-        self.x = self.radius
-        self.dx = -self.dx
-    elseif self.x + self.radius >= screenWidth then
-        self.x = screenWidth - self.radius
-        self.dx = -self.dx
-    end
-
-    if self.y - self.radius <= 0 then
-        self.y = self.radius
-        self.dy = -self.dy
-    end
 end
 
 function Ball:collidesWith(target)
@@ -72,16 +59,6 @@ function Ball:collidesWith(target)
     local dx = self.x - closestX
     local dy = self.y - closestY
     return (dx * dx + dy * dy) <= (self.radius * self.radius)
-end
-
-function Ball:bounce(axis)
-    if axis == "horizontal" then
-        self.dx = -self.dx
-    elseif axis == "vertical" then
-        self.dy = -self.dy
-    end
-
-    self.angle = math.atan2(-self.dy, self.dx)
 end
 
 function Ball:reflect(normalX, normalY)

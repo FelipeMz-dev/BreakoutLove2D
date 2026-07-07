@@ -45,7 +45,10 @@ function GameScreen:enter(params)
 end
 
 function GameScreen:loadLevel(levelId)
+    local middleWidth = love.graphics.getWidth() / 2
     local levelData = self.levelLoader and self.levelLoader:getLevel(levelId)
+    local dificult = 5 * levelData.id or 1
+
     if not levelData then
         print("Nivel no encontrado: " .. tostring(levelId) .. ". Buscando primer nivel disponible.")
         local availableLevels = self.levelLoader and self.levelLoader:getLevels()
@@ -58,13 +61,11 @@ function GameScreen:loadLevel(levelId)
         error("No hay niveles cargados para iniciar el juego.")
     end
 
-    local dificult = 5 * levelData.id or 1 
-
     self.currentLevel = levelData.id or 1
     self.levelData = levelData
     self.session = GameSession.new(3)
-    self.paddle = Paddle:new(love.graphics.getWidth() / 2 - 40, love.graphics.getHeight() - 40)
-    self.ball = Ball:new(love.graphics.getWidth() / 2, love.graphics.getHeight() - 60, 16, 200 + dificult)
+    self.paddle = Paddle:new(middleWidth - 40, love.graphics.getHeight() - 40)
+    self.ball = Ball:new(middleWidth, love.graphics.getHeight() - 60, 16, 250 + dificult)
     self.bricks = self.levelLoader and self.levelLoader:createBricks(levelData) or {}
 end
 

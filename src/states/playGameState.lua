@@ -24,8 +24,13 @@ function PlayGameState:update(dt)
         return
     end
 
-    self.paddle:update(dt, love.graphics.getWidth())
-    self.ball:update(dt, love.graphics.getWidth(), love.graphics.getHeight())
+    local screenWidth = love.graphics.getWidth()
+    local screenHeight = love.graphics.getHeight()
+
+    self.paddle:update(dt, screenWidth)
+    self.ball:update(dt)
+
+    self.collisionSystem:resolveBallWithBounds(self.ball, screenWidth)
 
     if self.collisionSystem:resolveBallWithPaddle(self.ball, self.paddle) then
         self.session:addScore(1)
@@ -53,7 +58,7 @@ function PlayGameState:update(dt)
         return
     end
 
-    if self.ball.y - self.ball.radius > love.graphics.getHeight() then
+    if self.ball.y - self.ball.radius > screenHeight then
         self.session:loseLife()
         if self.session:isGameOver() then
             self.gameState:switchTo("gameOver")

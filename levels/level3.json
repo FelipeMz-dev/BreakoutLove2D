@@ -1,9 +1,9 @@
 {
   "id": 3,
   "name": "Nivel 3 - Avanzado",
-  "rows": 6,
+  "rows": 5,
   "columns": 10,
-  "brickWidth": 68,
+  "brickWidth": 70,
   "brickHeight": 18,
   "padding": 5,
   "offsetX": 34,

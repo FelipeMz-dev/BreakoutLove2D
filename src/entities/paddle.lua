@@ -1,3 +1,5 @@
+local AABB = require("src.core.AABB")
+
 local Paddle = {}
 Paddle.__index = Paddle
 
@@ -9,6 +11,7 @@ function Paddle:new(x, y)
         height = 16,
         dx = 0,
         speed = 300,
+        aabb = AABB.new(x or 1, y or 1, 80, 16),
     }
 
     return setmetatable(this, Paddle)
@@ -29,12 +32,20 @@ function Paddle:update(dt, screenWidth)
     end
 
     self.x = self.x + self.dx * dt
+    self:syncAABB()
 
     if self.x < 0 then
         self.x = 0
     elseif self.x + self.width > screenWidth then
         self.x = screenWidth - self.width
     end
+end
+
+function Paddle:syncAABB()
+    self.aabb.x = self.x
+    self.aabb.y = self.y
+    self.aabb.width = self.width
+    self.aabb.height = self.height
 end
 
 function Paddle:draw()

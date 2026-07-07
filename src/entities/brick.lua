@@ -1,3 +1,5 @@
+local AABB = require("src.core.AABB")
+
 local Brick = {}
 Brick.__index = Brick
 
@@ -12,6 +14,7 @@ function Brick:new(x, y, width, height, resistance, colors)
         maxResistance = resistance or 1,
         colors = colors or {{0.8, 0.3, 0.3}},
         colorIndex = 1,
+        aabb = AABB.new(x or 0, y or 0, width or 75, height or 20)
     }
 
     return setmetatable(this, Brick)
@@ -22,6 +25,8 @@ function Brick:takeHit()
         return false
     end
 
+    self:syncAABB()
+
     self.resistance = self.resistance - 1
     if self.resistance <= 0 then
         self.active = false
@@ -30,6 +35,13 @@ function Brick:takeHit()
 
     self.colorIndex = math.max(1, math.min(#self.colors, self.colorIndex + 1))
     return false
+end
+
+function Brick:syncAABB()
+    self.aabb.x = self.x
+    self.aabb.y = self.y
+    self.aabb.width = self.width
+    self.aabb.height = self.height
 end
 
 function Brick:draw()

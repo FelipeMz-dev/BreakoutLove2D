@@ -6,6 +6,10 @@ function CollisionSystem.new()
 end
 
 local function getRectAABB(entity)
+    if entity and entity.aabb then
+        return entity.aabb
+    end
+
     return {
         x = entity.x or 0,
         y = entity.y or 0,
@@ -15,6 +19,10 @@ local function getRectAABB(entity)
 end
 
 local function getBallAABB(ball)
+    if ball and ball.aabb then
+        return ball.aabb
+    end
+
     return {
         x = ball.x - ball.radius,
         y = ball.y - ball.radius,

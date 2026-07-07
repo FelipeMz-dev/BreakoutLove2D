@@ -1,3 +1,5 @@
+local AABB = require("src.core.AABB")
+
 local Ball = {}
 Ball.__index = Ball
 
@@ -14,7 +16,8 @@ function Ball:new(x, y, radius, speed)
         dy = 0,
         angle = -math.pi / 2,
         stuck = true,
-        width = ballImage:getWidth()
+        width = ballImage:getWidth(),
+        aabb = AABB.new(x or 0, y or 0, (radius or 6) * 2, (radius or 6) * 2)
     }
 
     return setmetatable(this, Ball)
@@ -51,14 +54,22 @@ function Ball:update(dt)
 
     self.x = self.x + self.dx * dt
     self.y = self.y + self.dy * dt
+    self:syncAABB()
+end
+
+function Ball:syncAABB()
+    self.aabb.x = self.x - self.radius
+    self.aabb.y = self.y - self.radius
+    self.aabb.width = self.radius * 2
+    self.aabb.height = self.radius * 2
 end
 
 function Ball:collidesWith(target)
-    local closestX = math.max(target.x, math.min(self.x, target.x + target.width))
-    local closestY = math.max(target.y, math.min(self.y, target.y + target.height))
-    local dx = self.x - closestX
-    local dy = self.y - closestY
-    return (dx * dx + dy * dy) <= (self.radius * self.radius)
+    if not target or not target.aabb then
+        return false
+    end
+
+    return self.aabb:overlaps(target.aabb)
 end
 
 function Ball:reflect(normalX, normalY)

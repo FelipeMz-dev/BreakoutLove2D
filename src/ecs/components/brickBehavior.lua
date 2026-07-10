@@ -7,7 +7,7 @@ function BrickBehavior.new(resistance, colors)
         resistance = resistance or 1,
         maxResistance = resistance or 1,
         colors = colors or { { 0.8, 0.3, 0.3 } },
-        colorIndex = 1,
+        colorIndex = #colors or 1,
         active = true
     }, BrickBehavior)
 end
@@ -23,7 +23,7 @@ function BrickBehavior:takeHit()
         return true
     end
 
-    self.colorIndex = math.max(1, math.min(#self.colors, self.colorIndex + 1))
+    self.colorIndex = math.max(1, self.colorIndex - 1)
     return false
 end
 

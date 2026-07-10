@@ -9,10 +9,11 @@ function RenderSystem.new()
 end
 
 function RenderSystem:draw(world)
+    love.graphics.setFont(love.graphics.newFont(12))
     for _, entity in ipairs(world.entities) do
         local renderable = entity:getComponent("renderable")
         local transform = entity:getComponent("transform")
-        if not (renderable and transform) then
+        if not (renderable or transform) then
             goto continue
         end
 
@@ -24,7 +25,6 @@ function RenderSystem:draw(world)
                 love.graphics.rectangle("fill", transform.x, transform.y, transform.width, transform.height)
                 love.graphics.setColor(0, 0, 0)
                 love.graphics.rectangle("line", transform.x, transform.y, transform.width, transform.height)
-                love.graphics.setFont(love.graphics.newFont(12))
                 love.graphics.print(brickBehavior.resistance, transform.x + 5, transform.y + 2)
             end
         elseif entity:hasTag("ball") then

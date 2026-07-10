@@ -79,6 +79,8 @@ function MenuScreen:draw()
     local windowWidth = love.graphics.getWidth()
     local windowHeight = love.graphics.getHeight()
 
+    love.graphics.clear(0.1, 0.1, 0.1)
+
     love.graphics.setFont(love.graphics.newFont(32))
     love.graphics.printf("BREAKOUT SOLID", 0, windowHeight * 0.18, windowWidth, "center")
 

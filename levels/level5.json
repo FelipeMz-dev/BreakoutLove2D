@@ -2,7 +2,7 @@
   "id": 5,
   "name": "Nivel 5 - Pirámide",
   "rows": 7,
-  "columns": 11,
+  "columns": 12,
   "brickWidth": 58,
   "brickHeight": 16,
   "padding": 4,

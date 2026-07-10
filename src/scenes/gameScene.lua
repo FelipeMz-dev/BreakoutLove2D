@@ -13,6 +13,9 @@ local PauseGameState = require("src.fms.pauseGameState")
 local GameOverGameState = require("src.fms.gameOverGameState")
 local WinGameState = require("src.fms.winGameState")
 local GameHud = require("src.core.gameHud")
+local Paddle = require("src.ecs.entities.paddle")
+local Ball = require("src.ecs.entities.ball")
+local Brick = require("src.ecs.entities.brick")
 
 local GameScene = {}
 GameScene.__index = GameScene
@@ -85,17 +88,20 @@ function GameScene:loadLevel(levelId)
         gameScreen = self
     }
 
-    self.paddle = ECSFactory.createPaddle(middleWidth - 40, love.graphics.getHeight() - 40)
-    self.ball = ECSFactory.createBall(middleWidth, love.graphics.getHeight() - 60, 16, 300 + dificult)
+    local paddle = Paddle:new(middleWidth - 40, love.graphics.getHeight() - 40)
+    local ball = Ball:new(middleWidth, love.graphics.getHeight() - 60, 16, 300 + dificult)
+
+    self.paddle = paddle.entity
+    self.ball = ball.entity
 
     self.ecsWorld:addEntity(self.paddle)
     self.ecsWorld:addEntity(self.ball)
 
     self.bricks = {}
     for _, brickTemplate in ipairs(brickTemplates) do
-        local ecsBrick = ECSFactory.createBrick(brickTemplate.x, brickTemplate.y, brickTemplate.width, brickTemplate.height, brickTemplate.resistance, brickTemplate.colors)
-        self.ecsWorld:addEntity(ecsBrick)
-        table.insert(self.bricks, ecsBrick)
+        local ecsBrick = Brick:new(brickTemplate.x, brickTemplate.y, brickTemplate.width, brickTemplate.height, brickTemplate.resistance, brickTemplate.colors)
+        self.ecsWorld:addEntity(ecsBrick.entity)
+        table.insert(self.bricks, ecsBrick.entity)
     end
 end
 

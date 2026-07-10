@@ -146,7 +146,8 @@ function CollisionSystem:update(dt, world)
             local bricks = world:getEntitiesByTag("brick")
             for _, brickEntity in ipairs(bricks) do
                 local brickBehavior = brickEntity:getComponent("brickBehavior")
-                local brickAABB = syncColliderAABB(brickEntity)
+                local brickCollider = brickEntity:getComponent("collider")
+                local brickAABB = brickCollider.aabb
 
                 if brickBehavior and brickBehavior.active and brickAABB and overlaps(ballLeft, ballTop, radius * 2, radius * 2, brickAABB.x, brickAABB.y, brickAABB.width, brickAABB.height) then
                     local overlapX = math.min(ballRight, brickAABB.x + brickAABB.width) - math.max(ballLeft, brickAABB.x)
@@ -181,12 +182,13 @@ function CollisionSystem:update(dt, world)
                         end
                     end
 
-                    if destroyed and math.random() < 0.35 then
+                    if destroyed and math.random() < 0.30 then
+                        world:removeEntity(brickEntity)
                         local powerup = ECSFactory.createPowerup(
                             brickAABB.x + brickAABB.width * 0.5 - 9,
                             brickAABB.y + brickAABB.height * 0.5 - 9
                         )
-                        world:addEntity(powerup)
+                        world:addEntity(brickEntity)
                     end
 
                     local session = world.context and world.context.session

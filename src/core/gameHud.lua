@@ -97,7 +97,7 @@ function GameHud:draw()
     love.graphics.print("Lifes: " .. tostring(lives), 260, 12)
 
     local powerups = self.gameScreen and self.gameScreen.activePowerups or {}
-    love.graphics.print("Powerups:", 370, 12)
+    love.graphics.print("Powerups:", 360, 12)
     for index = 1, 3 do
         local x = 455 + (index - 1) * 22
         local position = #powerups - (3 - index)

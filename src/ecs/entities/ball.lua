@@ -9,7 +9,6 @@ function Ball:new(x, y, radius, speed)
         entity = entity,
         radius = radius or 6,
         speed = speed or 300,
-        aabb = { x = x or 0, y = y or 0, width = (radius or 6) * 2, height = (radius or 6) * 2 }
     }, Ball)
     return this
 end

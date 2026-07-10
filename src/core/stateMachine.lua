@@ -10,13 +10,15 @@ end
 
 function StateMachine:change(stateName, params)
     assert(self.states[stateName], "El estado '" .. stateName .. "' no existe.")
-    
-    if self.current then
+
+    if self.current and type(self.current.exit) == "function" then
         self.current:exit()
     end
-    
+
     self.current = self.states[stateName]
-    self.current:enter(params)
+    if self.current and type(self.current.enter) == "function" then
+        self.current:enter(params)
+    end
 end
 
 function StateMachine:update(dt)

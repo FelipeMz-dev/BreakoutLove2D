@@ -2,19 +2,24 @@
 -- Navigation between screens with an internal game state machine
 
 local Navigator = require("src.core.navigator")
-local GameScreen = require("src.screens.gameScreen")
-local StartScreen = require("src.screens.startScreen")
-local MenuScreen = require("src.screens.menuScreen")
-local ProgressionManager = require("src.systems.progressionManager")
-local LevelLoader = require("src.systems.levelLoader")
+local GameScreen = require("src.scenes.gameScene")
+local StartScreen = require("src.scenes.startScene")
+local MenuScreen = require("src.scenes.menuScene")
+local ProgressionManager = require("src.utils.progressionManager")
+local LevelLoader = require("src.utils.levelLoader")
 
 local navigator
 local progression
 local levelLoader
+local audioLoop
 
 function love.load()
     progression = ProgressionManager.new()
     progression:load()
+
+    audioLoop = love.audio.newSource("assets/sounds/music.mp3", "stream")
+    audioLoop:setLooping(true)
+    audioLoop:setVolume(0.5)
 
     levelLoader = LevelLoader.new()
     levelLoader:loadAll()
@@ -33,6 +38,25 @@ function loadImage (path)
 	if info then
 		return love.graphics.newImage( path )
 	end
+end
+
+function loadSound (path)
+    local info = love.filesystem.getInfo( path )
+    if info then
+        return love.audio.newSource( path, "static" )
+    end
+end
+
+function playLoopSound()
+    if not audioLoop:isPlaying() then
+        audioLoop:play()
+    end
+end
+
+function stopLoopSound()
+    if audioLoop:isPlaying() then
+        audioLoop:stop()
+    end
 end
 
 function love.update(dt)

@@ -14,7 +14,7 @@ end
 function StartGameState:enter(params)
     self.session = params.session or self.gameState.session
     self.paddle = self.gameState.paddle
-    self.ball = self.gameState.ball
+    self.ball = self.gameState.ball or (self.gameState.ecsWorld and self.gameState.ecsWorld:getEntityByTag("ball"))
     self.launchAngle = -math.pi / 2
 
     startSound:play()

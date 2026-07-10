@@ -1,6 +1,15 @@
 local Button = require("src.ecs.entities.button")
 
 local GameHud = {}
+
+local function getPowerupColor(effectType)
+    if effectType == "multi_ball" then
+        return 1, 0.35, 0.75
+    elseif effectType == "slow_ball" then
+        return 1, 0.85, 0.2
+    end
+    return 0.25, 0.7, 1.0
+end
 GameHud.__index = GameHud
 
 function GameHud.new(gameScreen)
@@ -86,6 +95,20 @@ function GameHud:draw()
     love.graphics.print("Nivel: " .. tostring(level), 12, 12)
     love.graphics.print("Score: " .. tostring(score), 140, 12)
     love.graphics.print("Lifes: " .. tostring(lives), 260, 12)
+
+    local powerups = self.gameScreen and self.gameScreen.activePowerups or {}
+    love.graphics.print("Powerups:", 370, 12)
+    for index = 1, 3 do
+        local x = 455 + (index - 1) * 22
+        local position = #powerups - (3 - index)
+        love.graphics.setColor(0.2, 0.2, 0.2)
+        love.graphics.rectangle("line", x, 10, 18, 18)
+        if powerups[position] then
+            local r, g, b = getPowerupColor(powerups[position])
+            love.graphics.setColor(r, g, b)
+            love.graphics.rectangle("fill", x + 2, 12, 14, 14)
+        end
+    end
 
     local mouseX, mouseY = love.mouse.getX(), love.mouse.getY()
     for _, buttonItem in ipairs(self.buttons) do

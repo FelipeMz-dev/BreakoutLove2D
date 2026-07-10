@@ -55,6 +55,21 @@ function World:getEntityByTag(tag)
     return nil
 end
 
+function World:removeEntity(entity)
+    if not entity then
+        return false
+    end
+
+    for index = #self.entities, 1, -1 do
+        if self.entities[index] == entity then
+            table.remove(self.entities, index)
+            return true
+        end
+    end
+
+    return false
+end
+
 function World:clear()
     self.entities = {}
 end

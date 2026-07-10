@@ -39,6 +39,7 @@ function GameScene.new(navigator, progression, levelLoader)
     self.paddle = nil
     self.ball = nil
     self.session = nil
+    self.activePowerups = {}
     self.hud = GameHud.new(self)
     self.ecsWorld = ECSWorld.new()
     self.ecsWorld:addSystem(MovementSystem.new())
@@ -72,6 +73,7 @@ function GameScene:loadLevel(levelId)
     self.currentLevel = levelData.id or 1
     self.levelData = levelData
     self.session = GameSession.new(3)
+    self.activePowerups = {}
 
     self.ecsWorld = ECSWorld.new()
     self.ecsWorld:addSystem(MovementSystem.new())
@@ -95,6 +97,14 @@ function GameScene:loadLevel(levelId)
         self.ecsWorld:addEntity(ecsBrick)
         table.insert(self.bricks, ecsBrick)
     end
+end
+
+function GameScene:addPowerup(effectType)
+    if not effectType then
+        return
+    end
+
+    table.insert(self.activePowerups, effectType)
 end
 
 function GameScene:switchTo(stateName, params)

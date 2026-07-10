@@ -11,6 +11,7 @@ end
 function MovementSystem:update(dt, world)
     local screenWidth = (world and world.context and world.context.screenWidth) or love.graphics.getWidth()
     local screenHeight = (world and world.context and world.context.screenHeight) or love.graphics.getHeight()
+    local removals = {}
 
     for _, entity in ipairs(world.entities) do
         if entity:hasTag("paddle") then
@@ -39,7 +40,20 @@ function MovementSystem:update(dt, world)
                 transform.x = transform.x + velocity.dx * dt
                 transform.y = transform.y + velocity.dy * dt
             end
+        elseif entity:hasTag("powerup") then
+            local transform = entity:getComponent("transform")
+            local powerupBehavior = entity:getComponent("powerupBehavior")
+            if transform and powerupBehavior and powerupBehavior.active then
+                transform.y = transform.y + (powerupBehavior.fallSpeed or 120) * dt
+                if transform.y > screenHeight + 20 then
+                    table.insert(removals, entity)
+                end
+            end
         end
+    end
+
+    for _, entity in ipairs(removals) do
+        world:removeEntity(entity)
     end
 end
 

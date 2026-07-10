@@ -35,11 +35,55 @@ function PlayGameState:update(dt)
 
     self.gameState.ecsWorld:update(dt)
 
-    local ballEntity = self.gameState.ecsWorld:getEntityByTag("ball")
-    local ballTransform = ballEntity and ballEntity:getComponent("transform")
-    local ballBehavior = ballEntity and ballEntity:getComponent("ballBehavior")
+    local balls = self.gameState.ecsWorld:getEntitiesByTag("ball")
+    local activeBalls = {}
 
-    if not ballEntity or not ballTransform or not ballBehavior or ballBehavior.stuck then
+    for _, ballEntity in ipairs(balls) do
+        local ballTransform = ballEntity and ballEntity:getComponent("transform")
+        local ballBehavior = ballEntity and ballEntity:getComponent("ballBehavior")
+
+        if ballTransform and ballBehavior and not ballBehavior.stuck then
+            if ballTransform.y - ballBehavior.radius > screenHeight then
+                self.gameState.ecsWorld:removeEntity(ballEntity)
+            else
+                table.insert(activeBalls, ballEntity)
+            end
+        end
+    end
+
+    if #activeBalls == 0 then
+        local baseBall = balls[1] or self.gameState.ball
+        local ballTransform = baseBall and baseBall:getComponent("transform")
+        local ballBehavior = baseBall and baseBall:getComponent("ballBehavior")
+
+        if not ballBehavior then
+            return
+        end
+
+        local paddleTransform = self.paddle and self.paddle:getComponent("transform")
+        local resetX = paddleTransform and (paddleTransform.x + paddleTransform.width / 2) or (ballTransform and ballTransform.x) or 0
+        local resetY = paddleTransform and (paddleTransform.y - ballBehavior.radius - 1) or (ballTransform and ballTransform.y) or 0
+
+        for _, ballEntity in ipairs(balls) do
+            self.gameState.ecsWorld:removeEntity(ballEntity)
+        end
+
+        local newBall = require("src.ecs.factory").createBall(resetX, resetY, ballBehavior.radius, ballBehavior.speed)
+        local newBallBehavior = newBall:getComponent("ballBehavior")
+        if newBallBehavior then
+            newBallBehavior:reset(resetX, resetY)
+        end
+
+        self.gameState.ball = newBall
+        self.ball = newBall
+        self.gameState.ecsWorld:addEntity(newBall)
+
+        self.session:loseLife()
+        if self.session:isGameOver() then
+            self.gameState:switchTo("gameOver")
+        else
+            self.gameState:switchTo("loseLife")
+        end
         return
     end
 
@@ -56,19 +100,6 @@ function PlayGameState:update(dt)
         self.gameState.progression:unlockLevel(self.gameState.currentLevel + 1)
         self.gameState:switchTo("win", { session = self.session })
         return
-    end
-
-    if ballTransform.y - ballBehavior.radius > screenHeight then
-        self.session:loseLife()
-        if self.session:isGameOver() then
-            self.gameState:switchTo("gameOver")
-        else
-            local paddleTransform = self.paddle and self.paddle:getComponent("transform")
-            local resetX = paddleTransform and (paddleTransform.x + paddleTransform.width / 2) or ballTransform.x
-            local resetY = paddleTransform and (paddleTransform.y - ballBehavior.radius - 1) or (ballTransform.y - ballBehavior.radius - 1)
-            ballBehavior:reset(resetX, resetY)
-            self.gameState:switchTo("loseLife")
-        end
     end
 end
 

@@ -24,6 +24,8 @@ function RenderSystem:draw(world)
                 love.graphics.rectangle("fill", transform.x, transform.y, transform.width, transform.height)
                 love.graphics.setColor(0, 0, 0)
                 love.graphics.rectangle("line", transform.x, transform.y, transform.width, transform.height)
+                love.graphics.setFont(love.graphics.newFont(12))
+                love.graphics.print(brickBehavior.resistance, transform.x + 5, transform.y + 2)
             end
         elseif entity:hasTag("ball") then
             local image = renderable.image
@@ -41,8 +43,16 @@ function RenderSystem:draw(world)
                 love.graphics.setColor(1, 1, 1)
                 love.graphics.draw(image, transform.x, transform.y, 0, scale, scale)
             end
+        elseif entity:hasTag("powerup") then
+            local powerupBehavior = entity:getComponent("powerupBehavior")
+            local color = (powerupBehavior and powerupBehavior.color) or renderable.color or { 1, 1, 1 }
+            love.graphics.setColor(color[1], color[2], color[3])
+            love.graphics.rectangle("fill", transform.x, transform.y, transform.width, transform.height)
+            love.graphics.setColor(0, 0, 0)
+            love.graphics.rectangle("line", transform.x, transform.y, transform.width, transform.height)
         else
-            love.graphics.setColor(table.unpack(renderable.color or { 1, 1, 1 }))
+            local color = renderable.color or { 1, 1, 1 }
+            love.graphics.setColor(color[1], color[2], color[3])
             love.graphics.rectangle("fill", transform.x, transform.y, transform.width, transform.height)
         end
 

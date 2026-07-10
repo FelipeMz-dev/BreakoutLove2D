@@ -479,12 +479,6 @@ Las contribuciones son bienvenidas. Por favor:
 
 ---
 
-## 📝 Licencia
-
-Este proyecto está bajo la licencia MIT.
-
----
-
 ## ✨ Desarrollado por
 
 **FelipeMz-dev**

@@ -112,6 +112,7 @@ function AudioPlayer:play(keyOrIndex)
     self.volume = clip.volume
     self.loop = clip.loop
 
+    clip.sound:stop()
     love.audio.play(clip.sound)
     return true
 end

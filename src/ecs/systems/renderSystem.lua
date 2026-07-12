@@ -33,9 +33,8 @@ function RenderSystem:draw(world)
                 local scale = (transform.width or 0) / image:getWidth()
                 local offsetX = image:getWidth() / 2
                 local offsetY = image:getHeight() / 2
-                love.graphics.setColor(1, 1, 1)
-                local ballBehavior = entity:getComponent("ballBehavior")
-                love.graphics.draw(image, transform.x, transform.y, ballBehavior.rotation, scale, scale, offsetX, offsetY)
+                love.graphics.setColor(1, 1, 1)                
+                love.graphics.draw(image, transform.x, transform.y, transform.angle, scale, scale, offsetX, offsetY)
             end
         elseif entity:hasTag("paddle") then
             local image = renderable.image

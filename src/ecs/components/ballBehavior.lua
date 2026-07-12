@@ -7,8 +7,7 @@ function BallBehavior.new(radius, speed)
         radius = radius or 6,
         speed = speed or 300,
         angle = -math.pi / 2,
-        stuck = true,
-        rotation = 0 
+        stuck = true
     }, BallBehavior)
 end
 

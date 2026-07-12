@@ -45,7 +45,7 @@ function MovementSystem:update(dt, world)
                     velocity.dy * velocity.dy
                 ) * dt
 
-                ballBehavior.rotation = ballBehavior.rotation + distance / ballBehavior.radius
+                transform.angle = transform.angle + distance / ballBehavior.radius
             end
         elseif entity:hasTag("powerup") then
             local transform = entity:getComponent("transform")

@@ -39,6 +39,13 @@ function MovementSystem:update(dt, world)
             if transform and velocity and ballBehavior and not ballBehavior.stuck then
                 transform.x = transform.x + velocity.dx * dt
                 transform.y = transform.y + velocity.dy * dt
+
+                local distance = math.sqrt(
+                    velocity.dx * velocity.dx +
+                    velocity.dy * velocity.dy
+                ) * dt
+
+                transform.angle = transform.angle + distance / ballBehavior.radius
             end
         elseif entity:hasTag("powerup") then
             local transform = entity:getComponent("transform")

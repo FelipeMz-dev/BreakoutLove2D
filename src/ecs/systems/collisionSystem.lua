@@ -188,7 +188,7 @@ function CollisionSystem:update(dt, world)
                             brickAABB.x + brickAABB.width * 0.5 - 9,
                             brickAABB.y + brickAABB.height * 0.5 - 9
                         )
-                        world:addEntity(brickEntity)
+                        world:addEntity(powerup)
                     end
 
                     local session = world.context and world.context.session
